@@ -20,18 +20,17 @@ function generateCards() {
   document.getElementById("cards-list").innerHTML = cards;
 }
 
-var count = 0;
+var winCount = 0;
 var selectedCards = [];
 function flippedCard(i) {
-  if (selectedCards.length <= 2) {
-    count ++;
 
-    var cardId = `card-${i}`;
-    var selectedCard = document.getElementById(cardId);
-    selectedCard.classList.toggle('flipped');
-    
-    selectedCards.push(cardId);
-  }
+  if (selectedCards.length === 2) return;
+
+  var cardId = `card-${i}`;
+  var selectedCard = document.getElementById(cardId);
+  selectedCard.classList.toggle('flipped');
+  selectedCards.push(cardId);
+  
 
   if (selectedCards.length === 2) {
     checkCards()
@@ -39,14 +38,15 @@ function flippedCard(i) {
 }
 
 function checkCards() {
-  var c1 = document.getElementById(selectedCards[0]).getAttribute("value");
-  var c2 = document.getElementById(selectedCards[1]).getAttribute("value");
+  var c1 = document.getElementById(selectedCards[0]);
+  var c2 = document.getElementById(selectedCards[1]);
 
-  console.log(c1)
-  if (c1 === c2) { 
-    document.getElementById(selectedCards[0]).onclick=null;
-    document.getElementById(selectedCards[1]).onclick=null;
+  if (c1.getAttribute("value") === c2.getAttribute("value")) { 
+    c1.onclick = null;
+    c2.onclick = null;
+    winCount++;
     selectedCards = [];
+    if (winCount === animals.length) alert("Hai Vinto. Sei un eroe!")
   }
   else setTimeout(hideCards, 1500);
 }
