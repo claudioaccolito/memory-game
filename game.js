@@ -14,12 +14,11 @@ function generateCards() {
   randomAnimalsPairs.forEach((animal,i) => {
     var cardFront = `<div class="card-front">${animal}</div>`;
     var cardBack = `<div class="card-back"></div>`;
-    cards += `<span onClick=flippedCard(${i}) class="card" id="card-${i}">${cardFront}${cardBack}</span>`;
+    cards += `<span onclick=flippedCard(${i}) class="card" value=${animal} id="card-${i}">${cardFront}${cardBack}</span>`;
   });
 
   document.getElementById("cards-list").innerHTML = cards;
 }
-
 
 var count = 0;
 var selectedCards = [];
@@ -34,7 +33,22 @@ function flippedCard(i) {
     selectedCards.push(cardId);
   }
 
-  if (selectedCards.length === 2) setTimeout(hideCards, 1500);
+  if (selectedCards.length === 2) {
+    checkCards()
+  }
+}
+
+function checkCards() {
+  var c1 = document.getElementById(selectedCards[0]).getAttribute("value");
+  var c2 = document.getElementById(selectedCards[1]).getAttribute("value");
+
+  console.log(c1)
+  if (c1 === c2) { 
+    document.getElementById(selectedCards[0]).onclick=null;
+    document.getElementById(selectedCards[1]).onclick=null;
+    selectedCards = [];
+  }
+  else setTimeout(hideCards, 1500);
 }
 
 function hideCards() {
